@@ -19,6 +19,7 @@ export const useUserStore = create<UserStore>((set) => ({
   },
 
   setUser: (userCpf: string) => {
+    localStorage.removeItem("userCpf");
     localStorage.setItem("userCpf", JSON.stringify(userCpf));
     set({ userCpf });
   },
