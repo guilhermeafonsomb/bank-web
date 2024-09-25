@@ -1,14 +1,12 @@
 "use client";
 import UserContent from "@/app/components/userContent";
+import { getUsers } from "@/app/services/userServices";
+import { User } from "@/app/shared/models/user.models";
 import { useUserStore } from "@/app/store/userStore";
-import { useEffect } from "react";
 
-export default function ListUsers() {
-  const { setUser, getUsers, users } = useUserStore();
-
-  useEffect(() => {
-    getUsers();
-  }, [getUsers]);
+export default async function ListUsers() {
+  const { setUser } = useUserStore();
+  const users: User[] = await getUsers();
 
   return (
     <section className="flex flex-col items-start gap-6">

@@ -8,6 +8,7 @@ interface FetchHelper {
 
 export function FetchHelper() {
   const get = async ({ tags, url }: FetchHelper) => {
+    console.log(tags[0], "tags");
     const response = await fetch(url, {
       next: {
         tags,
@@ -26,6 +27,8 @@ export function FetchHelper() {
       body: JSON.stringify(body),
     });
     const data = await response.json();
+    console.log(tags[0], "tags2s");
+
     revalidateTag(tags[0]);
 
     return data;

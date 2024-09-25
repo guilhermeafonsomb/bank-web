@@ -28,7 +28,7 @@ export default function Modal({
         className="relative z-50"
       >
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-          <DialogPanel className="max-w-lg space-y-4 rounded-lg bg-slate-900 p-12">
+          <DialogPanel className="w-full max-w-[500px] space-y-4 rounded-lg bg-slate-900 p-12">
             <DialogTitle className="font-bold">{modalTitle}</DialogTitle>
             {children}
             <div className="flex items-center justify-center">
