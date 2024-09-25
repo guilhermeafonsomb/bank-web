@@ -1,32 +1,9 @@
 "use client";
 
-import { useUserStore } from "@/app/store/userStore";
-import { useEffect } from "react";
+import { useModalStore } from "@/app/store/modalStore";
 
-export default function CreateUser() {
-  const { users, getUsers } = useUserStore();
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   watch,
-  //   formState: { errors },
-  // } = useForm<UserFormData>();
-
-  // const mutation = useCreateUser();
-
-  // const onSubmit = (data: UserFormData) => {
-  //   console.log(data, "data");
-  //   // mutation.mutate(data);
-  // };
-
-  useEffect(() => {
-    //   getUsers();
-    getUsers();
-
-    //   console.log(users, "users");
-  }, [getUsers]);
-
-  console.log(users, "users");
+export default function FormUser() {
+  const closeModal = useModalStore((state) => state.closeModal);
 
   return (
     <div className="max-w-md mx-auto mt-10">
@@ -45,6 +22,7 @@ export default function CreateUser() {
         <button
           type="submit"
           className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg"
+          onClick={() => closeModal()}
         >
           Criar usuário
           {/* {mutation.isLoading ? "Creating..." : "Create User"} */}
