@@ -1,5 +1,6 @@
-import { useModalStore } from "@/app/store/modalStore";
+import { useModalStore } from "@/src/app/store/modalStore";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import Button from "../button";
 
 interface ModalProps {
   children: React.ReactNode;
@@ -16,12 +17,9 @@ export default function Modal({
 
   return (
     <>
-      <button
-        className="text-blue-500 cursor-pointer p-2 rounded transition ease-in-out delay-150 hover:text-blue-700 active:text-blue-900"
-        onClick={() => openModal()}
-      >
+      <Button variation="primary-ghost" onClick={() => openModal()}>
         {labelButton}
-      </button>
+      </Button>
       <Dialog
         open={isOpen}
         onClose={() => closeModal()}
@@ -32,9 +30,9 @@ export default function Modal({
             <DialogTitle className="font-bold">{modalTitle}</DialogTitle>
             {children}
             <div className="flex items-center justify-center">
-              <button className="text-red-500" onClick={() => closeModal()}>
+              <Button variation="secondary-ghost" onClick={() => closeModal()}>
                 Cancelar
-              </button>
+              </Button>
             </div>
           </DialogPanel>
         </div>
