@@ -31,7 +31,7 @@ export default function FormCreateAccountBank({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex w-full items-end gap-10"
+      className="flex flex-col w-full items-end gap-10 md:flex-row"
     >
       <div className="w-full">
         <label className="block mb-2 font-medium" htmlFor="account">
@@ -47,9 +47,11 @@ export default function FormCreateAccountBank({
         )}
       </div>
 
-      <Button variation="primary" type="submit">
-        Criar conta
-      </Button>
+      <div className="w-full md:max-w-36">
+        <Button variation="primary" type="submit">
+          Criar conta
+        </Button>
+      </div>
     </form>
   );
 }

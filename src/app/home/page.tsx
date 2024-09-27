@@ -4,11 +4,10 @@ import { useUserStore } from "../store/userStore";
 import { useEffect } from "react";
 import Tabs from "../components/tabs";
 import { Button } from "@headlessui/react";
-import FormCreateAccountBank, {
-  FormAccount,
-} from "../components/form-create-account-bank";
+
 import UserCreate from "./components/userCreate";
 import ListUsersDropdown from "./components/listUsersDropdown";
+import CreateAndListAccounts from "./components/createAndListAccounts";
 
 export default function Home() {
   const { loadUserFromLocalStorage, chosenUser } = useUserStore();
@@ -17,15 +16,10 @@ export default function Home() {
     loadUserFromLocalStorage();
   }, [loadUserFromLocalStorage]);
 
-  const handleAccountCreate = (accountData: FormAccount) => {
-    console.log(accountData, "accountData");
-    console.log(chosenUser, "chosenUser");
-  };
-
   const tabs = [
     {
-      label: "tab 1",
-      content: <FormCreateAccountBank onSubmitData={handleAccountCreate} />,
+      label: "Contas bancárias",
+      content: <CreateAndListAccounts userId={chosenUser?.userId as string} />,
     },
     { label: "tab 2", content: <Button>Tab 2</Button> },
     { label: "tab 3", content: <Button>Tab 3</Button> },
@@ -44,7 +38,7 @@ export default function Home() {
           </div>
         </section>
       </section>
-      <section className="flex items-center justify-center w-full">
+      <section className="flex items-center justify-center w-full px-2">
         <Tabs tabs={tabs} />
       </section>
     </section>
