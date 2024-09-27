@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { User } from "../shared/models/user.models";
-import { getUsers } from "../services/userServices";
+import { User, UserFormData } from "../shared/models/user.models";
+import { createUsers, getUsers } from "../services/userServices";
 
 interface ChosenUser {
   cpf: string;
@@ -13,6 +13,8 @@ interface UserStore {
   getUsers: () => Promise<void>;
   setUser: (user: ChosenUser) => void;
   loadUserFromLocalStorage: () => void;
+  createUser: (user: UserFormData) => Promise<void>;
+  addUserToState: (user: User) => void;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -35,5 +37,16 @@ export const useUserStore = create<UserStore>((set) => ({
     if (storedUser) {
       set({ chosenUser: JSON.parse(storedUser) });
     }
+  },
+
+  createUser: async (user: UserFormData) => {
+    const response = await createUsers(user);
+    return response;
+  },
+
+  addUserToState: (user: User) => {
+    set((state) => ({
+      users: [...state.users, user],
+    }));
   },
 }));

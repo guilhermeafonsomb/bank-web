@@ -1,7 +1,7 @@
 "use server";
 import { FetchHelper } from "../helpers/fetchHelper";
 import { User, UserFormData } from "../shared/models/user.models";
-const baseURL = process.env.NEXT_PUBLIC_API_URL;
+import { baseURL } from "../shared/utils/baseUrl";
 const fetchHelper = FetchHelper();
 
 export const createUsers = async (user: UserFormData) => {
