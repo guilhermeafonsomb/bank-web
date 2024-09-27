@@ -15,8 +15,14 @@ export default function FormUser({ onSubmitData }: FormUserProps) {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<UserFormData>();
+
+  const handleCpfInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[.-]/g, "");
+    setValue("cpf", value.trim());
+  };
 
   const onSubmit = async (data: UserFormData) => {
     try {
@@ -66,6 +72,7 @@ export default function FormUser({ onSubmitData }: FormUserProps) {
                 message: validationMessages.minLength,
               },
             })}
+            onInput={handleCpfInput}
           />
 
           {errors.cpf && <ErrorMessage message={errors.cpf?.message} />}

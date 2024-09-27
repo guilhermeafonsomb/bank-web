@@ -2,32 +2,38 @@ import { create } from "zustand";
 import { User } from "../shared/models/user.models";
 import { getUsers } from "../services/userServices";
 
+interface ChosenUser {
+  cpf: string;
+  userId: string;
+}
+
 interface UserStore {
   users: User[];
-  userCpf: string | null;
+  chosenUser: ChosenUser | null;
   getUsers: () => Promise<void>;
-  setUser: (userCpf: string) => void;
+  setUser: (user: ChosenUser) => void;
+  loadUserFromLocalStorage: () => void;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
   users: [],
-  userCpf: null,
+  chosenUser: null,
 
   getUsers: async () => {
     const users = await getUsers();
     set({ users });
   },
 
-  setUser: (userCpf: string) => {
-    localStorage.removeItem("userCpf");
-    localStorage.setItem("userCpf", JSON.stringify(userCpf));
-    set({ userCpf });
+  setUser: (user: ChosenUser) => {
+    localStorage.removeItem("user");
+    localStorage.setItem("user", JSON.stringify(user));
+    set({ chosenUser: user });
   },
 
   loadUserFromLocalStorage: () => {
-    const storedUser = localStorage.getItem("userCpf");
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      set({ userCpf: JSON.parse(storedUser) });
+      set({ chosenUser: JSON.parse(storedUser) });
     }
   },
 }));
