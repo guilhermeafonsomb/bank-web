@@ -9,20 +9,21 @@ import { createUsers } from "../services/userServices";
 import { useEffect } from "react";
 import Tabs from "../components/tabs";
 import { Button } from "@headlessui/react";
+import FormCreateAccountBank from "../components/form-create-account-bank";
 
 export default function Home() {
   const { setUser, getUsers, users } = useUserStore();
 
-  const handleSubmitData = (userData: FormData) => {
-    const dataUser: UserFormData = {
-      name: userData.get("name") as string,
-      cpf: userData.get("cpf") as string,
+  const handleSubmitData = (userData: UserFormData) => {
+    const dataUser = {
+      name: userData.name,
+      cpf: userData.cpf,
     };
     createUsers(dataUser);
   };
 
   const test = [
-    { label: "tab 1", content: <Button>Tab 1</Button> },
+    { label: "tab 1", content: <FormCreateAccountBank /> },
     { label: "tab 2", content: <Button>Tab 2</Button> },
     { label: "tab 3", content: <Button>Tab 3</Button> },
   ];

@@ -1,5 +1,10 @@
 import { useModalStore } from "@/src/app/store/modalStore";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  DialogBackdrop,
+} from "@headlessui/react";
 import Button from "../button";
 
 interface ModalProps {
@@ -25,6 +30,7 @@ export default function Modal({
         onClose={() => closeModal()}
         className="relative z-50"
       >
+        <DialogBackdrop className="fixed inset-0 bg-black/30" />
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
           <DialogPanel className="w-full max-w-[500px] space-y-4 rounded-lg bg-slate-900 p-12">
             <DialogTitle className="font-bold">{modalTitle}</DialogTitle>

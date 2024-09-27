@@ -1,14 +1,24 @@
 import { useModalStore } from "@/src/app/store/modalStore";
 import Button from "../button";
+import { UserFormData } from "../../shared/models/user.models";
+import { useForm } from "react-hook-form";
+import ErrorMessage from "../errorMessage";
+import { validationMessages } from "../../shared/utils/messages";
 
 interface FormUserProps {
-  onSubmitData: (data: FormData) => void;
+  onSubmitData: (data: UserFormData) => void;
 }
 
 export default function FormUser({ onSubmitData }: FormUserProps) {
   const closeModal = useModalStore((state) => state.closeModal);
 
-  const onSubmit = async (data: FormData) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserFormData>();
+
+  const onSubmit = async (data: UserFormData) => {
     try {
       onSubmitData(data);
       closeModal();
@@ -20,29 +30,45 @@ export default function FormUser({ onSubmitData }: FormUserProps) {
   return (
     <div className="max-w-md mx-auto mt-10">
       <h1 className="text-2xl font-bold mb-5">Criação de usuário</h1>
-      <form className="space-y-4" action={onSubmit} method="POST">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label htmlFor="name" className="block mb-1 font-medium">
+          <label htmlFor="name" className="block mb-2 font-medium">
             Name
           </label>
           <input
             className="w-full border text-slate-950  px-3 py-2 rounded-lg"
             placeholder="Digite seu nome"
             id="user_name"
-            name="name"
+            {...register("name", { required: true })}
           />
+
+          {errors.name && (
+            <ErrorMessage message={validationMessages.required} />
+          )}
         </div>
 
         <div>
-          <label htmlFor="cpf" className="block mb-1 font-medium">
-            CPF
+          <label htmlFor="cpf" className="block mb-2 font-medium">
+            CPF <small>(Somente números)</small>
           </label>
           <input
             className="w-full border text-slate-950 px-3 py-2 rounded-lg"
             placeholder="Digite seu cpf"
             id="user_cpf"
-            name="cpf"
+            {...register("cpf", {
+              required: validationMessages.required,
+              maxLength: {
+                value: 11,
+                message: validationMessages.maxLengthSm,
+              },
+              minLength: {
+                value: 11,
+                message: validationMessages.minLength,
+              },
+            })}
           />
+
+          {errors.cpf && <ErrorMessage message={errors.cpf?.message} />}
         </div>
 
         <Button variation="primary" type="submit">
