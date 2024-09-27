@@ -28,9 +28,11 @@ export default function Tabs({ tabs }: TabsProps) {
           </Tab>
         ))}
       </TabList>
-      <TabPanels className="mt-4">
+      <TabPanels className="w-full mt-4">
         {tabs.map((tab, index) => (
-          <TabPanel key={index}>{tab.content}</TabPanel>
+          <TabPanel className="w-full" key={index}>
+            {tab.content}
+          </TabPanel>
         ))}
       </TabPanels>
     </TabGroup>
