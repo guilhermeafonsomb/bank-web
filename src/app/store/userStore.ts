@@ -14,7 +14,6 @@ interface UserStore {
   setUser: (user: ChosenUser) => void;
   loadUserFromLocalStorage: () => void;
   createUser: (user: UserFormData) => Promise<void>;
-  addUserToState: (user: User) => void;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -41,12 +40,9 @@ export const useUserStore = create<UserStore>((set) => ({
 
   createUser: async (user: UserFormData) => {
     const response = await createUsers(user);
-    return response;
-  },
-
-  addUserToState: (user: User) => {
     set((state) => ({
-      users: [...state.users, user],
+      users: [...state.users, response],
     }));
+    return response;
   },
 }));

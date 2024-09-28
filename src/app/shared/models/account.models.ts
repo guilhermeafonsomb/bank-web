@@ -1,5 +1,5 @@
 export interface AccountFormData {
-  accountName: string;
+  name: string;
   userId: string;
 }
 

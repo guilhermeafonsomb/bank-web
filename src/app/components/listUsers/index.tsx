@@ -12,7 +12,12 @@ export default async function ListUsers() {
       {users.map((user) => (
         <UserContent
           key={user.id}
-          onClick={() => setUser(user.cpf)}
+          onClick={() =>
+            setUser({
+              cpf: user.cpf,
+              userId: user.id,
+            })
+          }
           user={user}
         />
       ))}

@@ -27,7 +27,7 @@ export default function FormUser({ onSubmitData }: FormUserProps) {
   const onSubmit = async (data: UserFormData) => {
     try {
       onSubmitData(data);
-      closeModal();
+      closeModal("createUserModal");
     } catch (error) {
       console.log(error, "error");
     }

@@ -9,25 +9,33 @@ import Button from "../button";
 
 interface ModalProps {
   children: React.ReactNode;
-  labelButton: string;
+  labelButton?: string;
   modalTitle: string;
+  modalId: string;
 }
 
 export default function Modal({
   children,
   labelButton,
   modalTitle,
+  modalId,
 }: ModalProps) {
-  const { isOpen, openModal, closeModal } = useModalStore();
+  const { openModal, closeModal, modals } = useModalStore();
+
+  const isOpen = modals[modalId]?.isOpen || false;
+  // const modalData = modals[modalId]?.modalData;
 
   return (
     <>
-      <Button variation="primary-ghost" onClick={() => openModal()}>
-        {labelButton}
-      </Button>
+      {labelButton && (
+        <Button variation="primary-ghost" onClick={() => openModal(modalId)}>
+          {labelButton}
+        </Button>
+      )}
+
       <Dialog
         open={isOpen}
-        onClose={() => closeModal()}
+        onClose={() => closeModal(modalId)}
         className="relative z-50"
       >
         <DialogBackdrop className="fixed inset-0 bg-black/30" />
@@ -36,7 +44,10 @@ export default function Modal({
             <DialogTitle className="font-bold">{modalTitle}</DialogTitle>
             {children}
             <div className="flex items-center justify-center">
-              <Button variation="secondary-ghost" onClick={() => closeModal()}>
+              <Button
+                variation="secondary-ghost"
+                onClick={() => closeModal(modalId)}
+              >
                 Cancelar
               </Button>
             </div>

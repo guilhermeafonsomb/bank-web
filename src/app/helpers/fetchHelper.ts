@@ -23,8 +23,31 @@ export function FetchHelper() {
     return data;
   };
 
+  const exclude = async ({ url }: FetchHelper) => {
+    const response = await fetch(url, {
+      method: "DELETE",
+    });
+    const data = await response.json();
+    return data;
+  };
+
+  const put = async ({ url, body }: FetchHelper) => {
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    const data = await response.json();
+
+    return data;
+  };
+
   return {
     get,
     post,
+    exclude,
+    put,
   };
 }

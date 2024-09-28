@@ -1,4 +1,5 @@
 import { Account } from "../../shared/models/account.models";
+import { useModalStore } from "../../store/modalStore";
 import Button from "../button";
 import Dropdown from "../dropdown";
 
@@ -7,10 +8,11 @@ interface ListAccountProps {
 }
 
 export default function ListAccounts({ accounts }: ListAccountProps) {
-  console.log(accounts, "accounts");
+  const { openModal } = useModalStore();
+
   return (
     <section className="flex flex-col gap-4">
-      <h1>Suas contas</h1>
+      <h1 className="font-bold text-xl">Suas contas</h1>
 
       <section>
         {accounts.map((account) => (
@@ -19,21 +21,39 @@ export default function ListAccounts({ accounts }: ListAccountProps) {
             key={account.id}
           >
             <div>
-              <p>{account.name}</p>
+              <p className="text-lg">{account.name}</p>
               <p>Valor da conta: {account.balance}</p>
             </div>
             <div>
               <Dropdown labelButton="...">
-                <section className="w-full max-w-24">
+                <section className="w-full max-w-24 flex flex-col gap-3">
                   <Button
-                    className="w-full hover:text-red-500"
+                    className="w-full hover:text-violet-500"
                     variation="ghost"
                   >
                     Editar
                   </Button>
-                  <Button variation="ghost">Excluir</Button>
-                  <Button variation="ghost">Sacar</Button>
-                  <Button variation="ghost">Depositar</Button>
+                  <Button
+                    className="w-full hover:text-red-500"
+                    variation="ghost"
+                    onClick={() =>
+                      openModal("deleteAccountModal", { accountId: account.id })
+                    }
+                  >
+                    Excluir
+                  </Button>
+                  <Button
+                    className="w-full hover:text-blue-500"
+                    variation="ghost"
+                  >
+                    Sacar
+                  </Button>
+                  <Button
+                    className="w-full hover:text-emerald-500"
+                    variation="ghost"
+                  >
+                    Depositar
+                  </Button>
                 </section>
               </Dropdown>
             </div>
