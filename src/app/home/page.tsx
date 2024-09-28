@@ -7,7 +7,7 @@ import { Button } from "@headlessui/react";
 
 import UserCreate from "./components/userCreate";
 import ListUsersDropdown from "./components/listUsersDropdown";
-import CreateAndListAccounts from "./components/createAndListAccounts";
+import Accounts from "./components/account/accounts";
 
 export default function Home() {
   const { loadUserFromLocalStorage, chosenUser } = useUserStore();
@@ -19,7 +19,7 @@ export default function Home() {
   const tabs = [
     {
       label: "Contas bancárias",
-      content: <CreateAndListAccounts userId={chosenUser?.userId as string} />,
+      content: <Accounts userId={chosenUser?.userId as string} />,
     },
     { label: "tab 2", content: <Button>Tab 2</Button> },
     { label: "tab 3", content: <Button>Tab 3</Button> },

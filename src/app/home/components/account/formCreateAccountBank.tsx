@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
-import ErrorMessage from "../errorMessage";
-import { validationMessages } from "../../shared/utils/messages";
+import ErrorMessage from "../../../components/errorMessage";
+import { validationMessages } from "../../../shared/utils/messages";
 import { Input } from "@headlessui/react";
-import Button from "../button";
+import Button from "../../../components/button";
 
 export interface FormAccount {
   accountName: string;
@@ -18,12 +18,14 @@ export default function FormCreateAccountBank({
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormAccount>();
 
   const onSubmit = async (data: FormAccount) => {
     try {
       onSubmitData(data);
+      reset();
     } catch (error) {
       console.log(error, "error");
     }

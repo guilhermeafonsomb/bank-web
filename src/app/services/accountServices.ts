@@ -29,13 +29,10 @@ export const deleteAccount = async (accountId: string) => {
   return response;
 };
 
-export const updateAccount = async (
-  accountId: string,
-  account: AccountFormData
-) => {
+export const updateAccount = async (accountId: string, accountName: string) => {
   const response = await fetchHelper.put({
     url: `${baseURL}/accounts/${accountId}`,
-    body: account,
+    body: { name: accountName },
   });
 
   return response;

@@ -12,7 +12,7 @@ interface AccountStore {
   getAccounts: (userId: string) => Promise<void>;
   createAccount: (account: AccountFormData) => Promise<void>;
   deleteAccount: (accountId: string) => Promise<void>;
-  updateAccount: (accountId: string, account: AccountFormData) => Promise<void>;
+  updateAccount: (accountId: string, accountName: string) => Promise<void>;
 }
 
 export const useAccountStore = create<AccountStore>((set) => ({
@@ -38,8 +38,13 @@ export const useAccountStore = create<AccountStore>((set) => ({
     }));
   },
 
-  updateAccount: async (accountId: string, account: AccountFormData) => {
-    const response = await updateAccount(accountId, account);
+  updateAccount: async (accountId: string, accountName: string) => {
+    const response = await updateAccount(accountId, accountName);
+    set((state) => ({
+      accounts: state.accounts.map((account) =>
+        account.id === accountId ? { ...account, name: accountName } : account
+      ),
+    }));
     return response;
   },
 }));

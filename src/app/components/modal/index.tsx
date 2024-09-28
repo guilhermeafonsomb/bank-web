@@ -23,7 +23,6 @@ export default function Modal({
   const { openModal, closeModal, modals } = useModalStore();
 
   const isOpen = modals[modalId]?.isOpen || false;
-  // const modalData = modals[modalId]?.modalData;
 
   return (
     <>

@@ -30,6 +30,11 @@ export default function ListAccounts({ accounts }: ListAccountProps) {
                   <Button
                     className="w-full hover:text-violet-500"
                     variation="ghost"
+                    onClick={() =>
+                      openModal("updateAccountModal", {
+                        accountId: account.id,
+                      })
+                    }
                   >
                     Editar
                   </Button>

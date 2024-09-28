@@ -2,12 +2,12 @@ import { create } from "zustand";
 
 interface ModalState {
   isOpen: boolean;
-  modalData?: unknown; // Você pode incluir dados específicos da modal aqui
+  modalData?: unknown;
 }
 
 interface ModalStore {
-  modals: { [key: string]: ModalState }; // Cada modal terá um estado com dados
-  openModal: (modalId: string, modalData?: unknown) => void; // Pode passar dados opcionais
+  modals: { [key: string]: ModalState };
+  openModal: (modalId: string, modalData?: unknown) => void;
   closeModal: (modalId: string) => void;
 }
 
@@ -18,7 +18,7 @@ export const useModalStore = create<ModalStore>((set) => ({
     set((state) => ({
       modals: {
         ...state.modals,
-        [modalId]: { isOpen: true, modalData }, // Abre modal e define dados opcionais
+        [modalId]: { isOpen: true, modalData },
       },
     })),
 
@@ -26,7 +26,7 @@ export const useModalStore = create<ModalStore>((set) => ({
     set((state) => ({
       modals: {
         ...state.modals,
-        [modalId]: { ...state.modals[modalId], isOpen: false }, // Fecha o modal
+        [modalId]: { ...state.modals[modalId], isOpen: false },
       },
     })),
 }));
