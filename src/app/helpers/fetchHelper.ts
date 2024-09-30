@@ -6,13 +6,10 @@ interface FetchHelper {
 export function FetchHelper() {
   const get = async ({ url }: FetchHelper) => {
     const response = await fetch(url);
-
     if (!response.ok) {
       const errorData = await response.json();
       throw { status: response.status, message: errorData.message };
     }
-
-
     return await response.json();
   };
 
@@ -24,17 +21,22 @@ export function FetchHelper() {
       },
       body: JSON.stringify(body),
     });
-    const data = await response.json();
-
-    return data;
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw { status: response.status, message: errorData.message };
+    }
+    return await response.json();
   };
 
   const exclude = async ({ url }: FetchHelper) => {
     const response = await fetch(url, {
       method: "DELETE",
     });
-    const data = await response.json();
-    return data;
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw { status: response.status, message: errorData.message };
+    }
+    return await response.json();
   };
 
   const put = async ({ url, body }: FetchHelper) => {
@@ -45,9 +47,11 @@ export function FetchHelper() {
       },
       body: JSON.stringify(body),
     });
-    const data = await response.json();
-
-    return data;
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw { status: response.status, message: errorData.message };
+    }
+    return await response.json();
   };
 
   return {

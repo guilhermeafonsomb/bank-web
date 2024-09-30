@@ -8,12 +8,16 @@ import { baseURL } from "../shared/utils/baseUrl";
 const fetchHelper = FetchHelper();
 
 export const createTransaction = async (transaction: TransactionFormData) => {
-  const request = await fetchHelper.post({
-    url: `${baseURL}/transactions`,
-    body: transaction,
-  });
-
-  return request;
+  try {
+    const request = await fetchHelper.post({
+      url: `${baseURL}/transactions`,
+      body: transaction,
+    });
+    return request;
+  } catch (error) {
+    console.error("Error creating transaction:", error);
+    throw error;
+  }
 };
 
 export const getTransactions = async (
@@ -28,26 +32,30 @@ export const getTransactions = async (
     type?: string;
   }
 ): Promise<Transaction[]> => {
-  const queryParams = new URLSearchParams();
+  try {
+    const queryParams = new URLSearchParams();
 
-  if (filters?.fromAccount)
-    queryParams.append("fromAccount", filters.fromAccount);
-  if (filters?.toAccount) queryParams.append("toAccount", filters.toAccount);
-  if (filters?.minAmount)
-    queryParams.append("minAmount", filters.minAmount.toString());
-  if (filters?.maxAmount)
-    queryParams.append("maxAmount", filters.maxAmount.toString());
-  if (filters?.startDate) queryParams.append("startDate", filters.startDate);
-  if (filters?.endDate) queryParams.append("endDate", filters.endDate);
-  if (filters?.type) queryParams.append("type", filters.type);
+    if (filters?.fromAccount)
+      queryParams.append("fromAccount", filters.fromAccount);
+    if (filters?.toAccount) queryParams.append("toAccount", filters.toAccount);
+    if (filters?.minAmount)
+      queryParams.append("minAmount", filters.minAmount.toString());
+    if (filters?.maxAmount)
+      queryParams.append("maxAmount", filters.maxAmount.toString());
+    if (filters?.startDate) queryParams.append("startDate", filters.startDate);
+    if (filters?.endDate) queryParams.append("endDate", filters.endDate);
+    if (filters?.type) queryParams.append("type", filters.type);
 
-  const queryString = queryParams.toString();
+    const queryString = queryParams.toString();
 
-  const url = `${baseURL}/transactions/user/${userId}?${queryString}`;
+    const url = `${baseURL}/transactions/user/${userId}?${queryString}`;
 
-  const response = await fetchHelper.get({
-    url,
-  });
-
-  return response;
+    const response = await fetchHelper.get({
+      url,
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching transactions:", error);
+    throw error;
+  }
 };
