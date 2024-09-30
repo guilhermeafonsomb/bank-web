@@ -37,3 +37,21 @@ export const updateAccount = async (accountId: string, accountName: string) => {
 
   return response;
 };
+
+export const withdraw = async (accountId: string, amount: number) => {
+  const response = await fetchHelper.put({
+    url: `${baseURL}/accounts/${accountId}/withdraw`,
+    body: { amount },
+  });
+
+  return response;
+};
+
+export const deposit = async (accountId: string, amount: number) => {
+  const response = await fetchHelper.put({
+    url: `${baseURL}/accounts/${accountId}/deposit`,
+    body: { amount },
+  });
+
+  return response;
+};

@@ -5,6 +5,8 @@ import { useAccountStore } from "../../../store/accountStore";
 import { useModalStore } from "../../../store/modalStore";
 import DeleteAccountModal from "./deleteAccountModal";
 import UpdateAccountModal from "./updateAccountModal";
+import WithdrawAccountModal from "./withdrawAccountModal";
+import DepositAccountModal from "./depositAccountModal";
 
 interface CreateAndListAccountsProps {
   userId: string;
@@ -12,11 +14,10 @@ interface CreateAndListAccountsProps {
 
 export default function Accounts({ userId }: CreateAndListAccountsProps) {
   const { getAccounts, accounts, createAccount } = useAccountStore();
-  const { modals } = useModalStore();
+  const { modals, modalType } = useModalStore();
 
-  const accountId = (
-    modals["updateAccountModal"]?.modalData as { accountId: string }
-  )?.accountId;
+  const accountId = (modals[modalType]?.modalData as { accountId: string })
+    ?.accountId;
 
   useEffect(() => {
     getAccounts(userId);
@@ -34,9 +35,10 @@ export default function Accounts({ userId }: CreateAndListAccountsProps) {
     <section className="flex flex-col gap-4">
       <FormCreateAccountBank onSubmitData={handleAccountCreate} />
       <ListAccounts accounts={accounts} />
-      <DeleteAccountModal accountId={accountId} />
-
       <UpdateAccountModal accountId={accountId} />
+      <DeleteAccountModal accountId={accountId} />
+      <WithdrawAccountModal accountId={accountId} />
+      <DepositAccountModal accountId={accountId} />
     </section>
   );
 }

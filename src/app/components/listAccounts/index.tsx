@@ -42,7 +42,9 @@ export default function ListAccounts({ accounts }: ListAccountProps) {
                     className="w-full hover:text-red-500"
                     variation="ghost"
                     onClick={() =>
-                      openModal("deleteAccountModal", { accountId: account.id })
+                      openModal("deleteAccountModal", {
+                        accountId: account.id,
+                      })
                     }
                   >
                     Excluir
@@ -50,12 +52,22 @@ export default function ListAccounts({ accounts }: ListAccountProps) {
                   <Button
                     className="w-full hover:text-blue-500"
                     variation="ghost"
+                    onClick={() =>
+                      openModal("withdrawAccountModal", {
+                        accountId: account.id,
+                      })
+                    }
                   >
                     Sacar
                   </Button>
                   <Button
                     className="w-full hover:text-emerald-500"
                     variation="ghost"
+                    onClick={() =>
+                      openModal("depositAccountModal", {
+                        accountId: account.id,
+                      })
+                    }
                   >
                     Depositar
                   </Button>

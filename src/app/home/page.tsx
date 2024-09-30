@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <section>
       <section className="flex justify-end">
-        <section className="flex w-full gap-4 p-4 md:max-w-96">
+        <section className="flex w-full gap-4 p-4 items-center md:max-w-96">
           <div className="w-2/4">
             <UserCreate />
           </div>

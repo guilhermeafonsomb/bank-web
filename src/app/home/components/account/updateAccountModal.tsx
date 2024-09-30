@@ -19,8 +19,6 @@ export default function UpdateAccountModal({
     try {
       updateAccount(accountId, data.accountName);
 
-      console.log(accountId, "accountId");
-
       reset();
       closeModal("updateAccountModal");
     } catch (error) {

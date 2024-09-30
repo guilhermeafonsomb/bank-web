@@ -4,6 +4,8 @@ import {
   getAccounts,
   deleteAccount,
   updateAccount,
+  withdraw,
+  deposit,
 } from "../services/accountServices";
 import { Account, AccountFormData } from "../shared/models/account.models";
 
@@ -13,6 +15,8 @@ interface AccountStore {
   createAccount: (account: AccountFormData) => Promise<void>;
   deleteAccount: (accountId: string) => Promise<void>;
   updateAccount: (accountId: string, accountName: string) => Promise<void>;
+  withdraw: (accountId: string, amount: number) => Promise<void>;
+  deposit: (accountId: string, amount: number) => Promise<void>;
 }
 
 export const useAccountStore = create<AccountStore>((set) => ({
@@ -43,6 +47,30 @@ export const useAccountStore = create<AccountStore>((set) => ({
     set((state) => ({
       accounts: state.accounts.map((account) =>
         account.id === accountId ? { ...account, name: accountName } : account
+      ),
+    }));
+    return response;
+  },
+
+  withdraw: async (accountId: string, amount: number) => {
+    const response = await withdraw(accountId, amount);
+    set((state) => ({
+      accounts: state.accounts.map((account) =>
+        account.id === accountId
+          ? { ...account, balance: account.balance - Number(amount) }
+          : account
+      ),
+    }));
+    return response;
+  },
+
+  deposit: async (accountId: string, amount: number) => {
+    const response = await deposit(accountId, amount);
+    set((state) => ({
+      accounts: state.accounts.map((account) =>
+        account.id === accountId
+          ? { ...account, balance: account.balance + Number(amount) }
+          : account
       ),
     }));
     return response;
