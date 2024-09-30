@@ -15,3 +15,13 @@ export interface Transaction {
   userId: string;
   type: string;
 }
+
+export interface FilterTransactionFormData {
+  fromAccount?: string;
+  toAccount?: string;
+  minAmount?: number;
+  maxAmount?: number;
+  startDate?: string;
+  endDate?: string;
+  type?: string;
+}

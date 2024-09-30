@@ -14,11 +14,9 @@ export default function Transactions({ userId }: TransactionsProps) {
     getTransactions(userId);
   }, [getTransactions, userId]);
 
-  console.log(transactions, "transactions");
-
   return (
     <section className="flex flex-col gap-7 max-h-[680px] overflow-auto">
-      <div className="w-full md:max-w-36">
+      <div className="w-full">
         <FormTransaction userId={userId} />
       </div>
 

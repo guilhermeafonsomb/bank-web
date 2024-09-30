@@ -11,6 +11,7 @@ import ErrorMessage from "@/src/app/components/errorMessage";
 import { validationMessages } from "@/src/app/shared/utils/messages";
 import { useTransactionStore } from "@/src/app/store/transactionStore";
 import { useModalStore } from "@/src/app/store/modalStore";
+import FilterTransaction from "./filterTransaction";
 
 interface FormTransactionProps {
   userId: string;
@@ -57,97 +58,109 @@ export default function FormTransaction({ userId }: FormTransactionProps) {
   }, [getAccounts, userId]);
 
   return (
-    <Modal
-      modalId="createTransactionModal"
-      labelButton="Criar transação"
-      modalTitle="Crie uma transação"
-    >
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-center gap-10 "
-      >
-        <div className="flex flex-col gap-4 md:flex-row">
-          <div className="w-full">
-            <label className="block mb-2 font-medium" htmlFor="account">
-              Conta rementente
-            </label>
-            <Select
-              onChange={(e) => {
-                const selectedAccount = accounts.find(
-                  (account) => account.id === e.target.value
-                );
-                setChosenAccount(selectedAccount as Account);
-              }}
-              className="bg-transparent border border-gray-200 p-2 rounded w-full"
-            >
-              <option className="text-slate-950 cursor-not-allowed" value="">
-                Escolha uma conta:
-              </option>
-              {accounts?.map((account) => (
-                <option
-                  className="text-slate-950 cursor-pointer"
-                  key={account.id}
-                  value={account.id}
-                  onClick={() => console.log(account.balance, "balance")}
+    <div className="flex flex-col w-full md:justify-between md:flex-row">
+      <div className="md:max-w-36">
+        <Modal
+          modalId="createTransactionModal"
+          labelButton="Criar transação"
+          modalTitle="Crie uma transação"
+        >
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col items-center gap-10 "
+          >
+            <div className="flex flex-col gap-4 md:flex-row">
+              <div className="w-full">
+                <label className="block mb-2 font-medium" htmlFor="account">
+                  Conta rementente
+                </label>
+                <Select
+                  onChange={(e) => {
+                    const selectedAccount = accounts.find(
+                      (account) => account.id === e.target.value
+                    );
+                    setChosenAccount(selectedAccount as Account);
+                  }}
+                  className="bg-transparent border border-gray-200 p-2 rounded w-full"
                 >
-                  {account.name} {account.balance}
-                </option>
-              ))}
-            </Select>
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-          </div>
+                  <option
+                    className="text-slate-950 cursor-not-allowed"
+                    value=""
+                  >
+                    Escolha uma conta:
+                  </option>
+                  {accounts?.map((account) => (
+                    <option
+                      className="text-slate-950 cursor-pointer"
+                      key={account.id}
+                      value={account.id}
+                    >
+                      {account.name} {account.balance}
+                    </option>
+                  ))}
+                </Select>
+                {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+              </div>
 
-          <div>
-            <label className="block mb-2 font-medium" htmlFor="amount">
-              Conta remetente
-            </label>
-            <Input
-              className="w-full text-slate-950  px-3 py-2 rounded-lg"
-              {...register("amount", {
-                max: {
-                  value: chosenAccount?.balance as number,
-                  message: validationMessages.balance,
-                },
-                required: true,
-              })}
-              type="number"
-            />
-            {errors.amount && <ErrorMessage message={errors.amount.message} />}
-            <p className="text-sm mt-1">
-              Saldo:{" "}
-              {chosenAccount?.balance
-                ? formatCurrency(chosenAccount?.balance as number)
-                : formatCurrency(0)}
-            </p>
-          </div>
-        </div>
-        <div className="w-full flex flex-col  items-center gap-2 md:flex-row md:items-end">
-          <div className="md:w-1/2">
-            <label className="block mb-2 font-medium" htmlFor="account">
-              Conta rementente
-            </label>
-            <Input
-              className="w-full text-slate-950  px-3 py-2 rounded-lg"
-              value={accountName}
-              onChange={(e) => setAccountName(e.target.value)}
-            />
-          </div>
-          <div className="md:w-1/2 mt-1 md:mt-0">
-            <div
-              className="w-full px-4 py-2 cursor-pointer"
-              onClick={handleSearch}
-            >
-              Buscar conta
+              <div>
+                <label className="block mb-2 font-medium" htmlFor="amount">
+                  Conta remetente
+                </label>
+                <Input
+                  className="w-full text-slate-950  px-3 py-2 rounded-lg"
+                  {...register("amount", {
+                    max: {
+                      value: chosenAccount?.balance as number,
+                      message: validationMessages.balance,
+                    },
+                    required: true,
+                  })}
+                  type="number"
+                />
+                {errors.amount && (
+                  <ErrorMessage message={errors.amount.message} />
+                )}
+                <p className="text-sm mt-1">
+                  Saldo:{" "}
+                  {chosenAccount?.balance
+                    ? formatCurrency(chosenAccount?.balance as number)
+                    : formatCurrency(0)}
+                </p>
+              </div>
             </div>
-          </div>
+            <div className="w-full flex flex-col  items-center gap-2 md:flex-row md:items-end">
+              <div className="md:w-1/2">
+                <label className="block mb-2 font-medium" htmlFor="account">
+                  Conta rementente
+                </label>
+                <Input
+                  className="w-full text-slate-950  px-3 py-2 rounded-lg"
+                  value={accountName}
+                  onChange={(e) => setAccountName(e.target.value)}
+                />
+              </div>
+              <div className="md:w-1/2 mt-1 md:mt-0">
+                <div
+                  className="w-full px-4 py-2 cursor-pointer"
+                  onClick={handleSearch}
+                >
+                  Buscar conta
+                </div>
+              </div>
 
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-        </div>
+              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            </div>
 
-        <Button disabled={!searchedAccount && !payload} type="submit">
-          Criar transação
-        </Button>
-      </form>
-    </Modal>
+            <Button disabled={!searchedAccount && !payload} type="submit">
+              Criar transação
+            </Button>
+          </form>
+        </Modal>
+      </div>
+
+      <div className="md:max-w-36">
+        <FilterTransaction userId={userId} />
+      </div>
+    </div>
   );
 }
