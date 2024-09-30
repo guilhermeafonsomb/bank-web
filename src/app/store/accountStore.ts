@@ -24,7 +24,7 @@ interface AccountStore {
   withdraw: (accountId: string, amount: number) => Promise<void>;
   deposit: (accountId: string, amount: number) => Promise<void>;
   searchedAccount: AccountByName | string | null;
-  searchAccountByName: (accountName: string | null) => Promise<void>;
+  searchAccountByName: (accountName: string) => Promise<void>;
 }
 
 export const useAccountStore = create<AccountStore>((set) => ({
@@ -116,11 +116,10 @@ export const useAccountStore = create<AccountStore>((set) => ({
     }
   },
 
-  searchAccountByName: async (accountName: string | null) => {
+  searchAccountByName: async (accountName: string) => {
     try {
       const result = await getAccountByName(accountName);
       set({ searchedAccount: result });
-      showToast("Conta encontrada", "success");
     } catch (error: unknown) {
       set({ searchedAccount: null });
       showToast("Conta não encontrada", "error");

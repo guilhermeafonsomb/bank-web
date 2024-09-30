@@ -86,7 +86,7 @@ export const deposit = async (accountId: string, amount: number) => {
 };
 
 export const getAccountByName = async (
-  accountName: string | null
+  accountName: string
 ): Promise<AccountByName | null> => {
   try {
     const response = await fetchHelper.get({

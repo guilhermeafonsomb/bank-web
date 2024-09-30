@@ -24,7 +24,7 @@ export default function FormTransaction({ userId }: FormTransactionProps) {
   const { createTransaction } = useTransactionStore();
 
   const { searchedAccount, searchAccountByName } = useAccountStore();
-  const [accountName, setAccountName] = useState("");
+  const [accountName, setAccountName] = useState<string | null>(null);
   const [chosenAccount, setChosenAccount] = useState<Account | null>(null);
   const [payload, setPayload] = useState<TransactionFormData | null>(null);
 
@@ -36,7 +36,7 @@ export default function FormTransaction({ userId }: FormTransactionProps) {
   } = useForm<TransactionFormData>();
 
   const handleSearch = async () => {
-    await searchAccountByName(accountName);
+    await searchAccountByName(accountName as string);
   };
 
   const onSubmit = async (data: TransactionFormData) => {
@@ -50,7 +50,7 @@ export default function FormTransaction({ userId }: FormTransactionProps) {
 
     createTransaction(payload as TransactionFormData);
     setPayload(null);
-    searchAccountByName(null);
+    setAccountName(null);
     setChosenAccount(null);
     reset();
 
@@ -134,11 +134,11 @@ export default function FormTransaction({ userId }: FormTransactionProps) {
             <div className="w-full flex flex-col  items-center gap-2 md:flex-row md:items-end">
               <div className="md:w-1/2">
                 <label className="block mb-2 font-medium" htmlFor="account">
-                  Conta rementente
+                  Conta destinatária
                 </label>
                 <Input
                   className="w-full text-slate-950  px-3 py-2 rounded-lg"
-                  value={accountName}
+                  value={accountName as string}
                   onChange={(e) => setAccountName(e.target.value)}
                 />
               </div>
