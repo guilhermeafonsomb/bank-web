@@ -1,4 +1,5 @@
 import { Account } from "../../shared/models/account.models";
+import formatCurrency from "../../shared/utils/format/formatCurrency";
 import { useModalStore } from "../../store/modalStore";
 import Button from "../button";
 import Dropdown from "../dropdown";
@@ -14,15 +15,21 @@ export default function ListAccounts({ accounts }: ListAccountProps) {
     <section className="flex flex-col gap-4">
       <h1 className="font-bold text-xl">Suas contas</h1>
 
-      <section>
+      <section className="flex flex-col gap-10">
         {accounts.map((account) => (
           <section
             className="flex justify-between items-center"
             key={account.id}
           >
             <div>
-              <p className="text-lg">{account.name}</p>
-              <p>Valor da conta: {account.balance}</p>
+              <p className="text-lg">
+                <span className="font-bold">Nome da conta: </span>
+                {account.name}
+              </p>
+              <p>
+                <span className="font-bold">Saldo: </span>
+                {formatCurrency(account.balance)}
+              </p>
             </div>
             <div>
               <Dropdown labelButton="...">

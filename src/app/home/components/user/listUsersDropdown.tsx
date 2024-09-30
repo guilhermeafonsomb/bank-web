@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import Dropdown from "../../components/dropdown";
-import { useUserStore } from "../../store/userStore";
-import Button from "../../components/button";
+import Dropdown from "../../../components/dropdown";
+import { useUserStore } from "../../../store/userStore";
+import Button from "../../../components/button";
 
 export default function ListUsersDropdown() {
   const { setUser, users, getUsers } = useUserStore();

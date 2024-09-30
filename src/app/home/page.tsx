@@ -3,11 +3,11 @@
 import { useUserStore } from "../store/userStore";
 import { useEffect } from "react";
 import Tabs from "../components/tabs";
-import { Button } from "@headlessui/react";
 
-import UserCreate from "./components/userCreate";
-import ListUsersDropdown from "./components/listUsersDropdown";
+import UserCreate from "./components/user/userCreate";
+import ListUsersDropdown from "./components/user/listUsersDropdown";
 import Accounts from "./components/account/accounts";
+import Transactions from "./components/transactions/transactions";
 
 export default function Home() {
   const { loadUserFromLocalStorage, chosenUser } = useUserStore();
@@ -16,13 +16,14 @@ export default function Home() {
     loadUserFromLocalStorage();
   }, [loadUserFromLocalStorage]);
 
+  const userId = chosenUser?.id as string;
+
   const tabs = [
     {
       label: "Contas bancárias",
-      content: <Accounts userId={chosenUser?.id as string} />,
+      content: <Accounts userId={userId} />,
     },
-    { label: "tab 2", content: <Button>Tab 2</Button> },
-    { label: "tab 3", content: <Button>Tab 3</Button> },
+    { label: "Movimentações", content: <Transactions userId={userId} /> },
   ];
 
   return (
@@ -40,8 +41,11 @@ export default function Home() {
       </section>
       <section className="flex items-center justify-center w-full ">
         {chosenUser && (
-          <div className="flex flex-col gap-3 max-w-4xl items-start justify-center w-full">
-            Usuário: {chosenUser?.name}
+          <div className="flex flex-col gap-3 max-w-4xl px-2 items-start justify-center w-full">
+            <p>
+              <span className="font-bold">Usuário: </span>
+              {chosenUser?.name}
+            </p>
             <Tabs tabs={tabs} />
           </div>
         )}

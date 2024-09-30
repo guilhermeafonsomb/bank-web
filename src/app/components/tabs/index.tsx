@@ -13,7 +13,7 @@ interface TabsProps {
 export default function Tabs({ tabs }: TabsProps) {
   return (
     <TabGroup className="w-full max-w-5xl flex flex-col justify-center items-start p-4 border rounded-md">
-      <TabList className="flex justify-between w-full border-b border-gray-800">
+      <TabList className="flex justify-center gap-10 w-full border-b border-gray-800">
         {tabs.map((tab, index) => (
           <Tab
             className={({ selected }) =>

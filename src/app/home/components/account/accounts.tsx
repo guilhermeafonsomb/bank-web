@@ -8,11 +8,11 @@ import UpdateAccountModal from "./updateAccountModal";
 import WithdrawAccountModal from "./withdrawAccountModal";
 import DepositAccountModal from "./depositAccountModal";
 
-interface CreateAndListAccountsProps {
+interface AccountsProps {
   userId: string;
 }
 
-export default function Accounts({ userId }: CreateAndListAccountsProps) {
+export default function Accounts({ userId }: AccountsProps) {
   const { getAccounts, accounts, createAccount } = useAccountStore();
   const { modals, modalType } = useModalStore();
 
