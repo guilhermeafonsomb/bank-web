@@ -13,7 +13,7 @@ import {
   AccountByName,
   AccountFormData,
 } from "../shared/models/account.models";
-import { ApiError } from "../shared/models/apiError.model";
+import { showToast } from "../shared/utils/toast/feedbackToast";
 
 interface AccountStore {
   accounts: Account[];
@@ -24,79 +24,107 @@ interface AccountStore {
   withdraw: (accountId: string, amount: number) => Promise<void>;
   deposit: (accountId: string, amount: number) => Promise<void>;
   searchedAccount: AccountByName | string | null;
-  errorMessage: string;
   searchAccountByName: (accountName: string | null) => Promise<void>;
 }
 
 export const useAccountStore = create<AccountStore>((set) => ({
   accounts: [],
-  searchedAccount: "",
-  errorMessage: "",
+  searchedAccount: null,
 
   getAccounts: async (userId: string) => {
-    const accounts = await getAccounts(userId);
-    set({ accounts });
+    try {
+      const accounts = await getAccounts(userId);
+      set({ accounts });
+    } catch (error: unknown) {
+      showToast("Erro ao carregar as contas", "error");
+      console.error(error);
+    }
   },
 
   createAccount: async (account: AccountFormData) => {
-    const response = await createAccount(account);
-    set((state) => ({
-      accounts: [...state.accounts, response],
-    }));
-    return response;
+    try {
+      const response = await createAccount(account);
+      set((state) => ({
+        accounts: [...state.accounts, response],
+      }));
+      showToast("Conta criada com sucesso", "success");
+    } catch (error: unknown) {
+      showToast("Erro ao criar a conta", "error");
+      console.error(error);
+    }
   },
 
   deleteAccount: async (accountId: string) => {
-    await deleteAccount(accountId);
-    set((state) => ({
-      accounts: state.accounts.filter((account) => account.id !== accountId),
-    }));
+    try {
+      await deleteAccount(accountId);
+      set((state) => ({
+        accounts: state.accounts.filter((account) => account.id !== accountId),
+      }));
+      showToast("Conta excluída com sucesso", "success");
+    } catch (error: unknown) {
+      showToast("Erro ao excluir a conta", "error");
+      console.error(error);
+    }
   },
 
   updateAccount: async (accountId: string, accountName: string) => {
-    const response = await updateAccount(accountId, accountName);
-    set((state) => ({
-      accounts: state.accounts.map((account) =>
-        account.id === accountId ? { ...account, name: accountName } : account
-      ),
-    }));
-    return response;
+    try {
+      await updateAccount(accountId, accountName);
+      set((state) => ({
+        accounts: state.accounts.map((account) =>
+          account.id === accountId ? { ...account, name: accountName } : account
+        ),
+      }));
+      showToast("Conta atualizada com sucesso", "success");
+    } catch (error: unknown) {
+      showToast("Erro ao atualizar a conta", "error");
+      console.error(error);
+    }
   },
 
   withdraw: async (accountId: string, amount: number) => {
-    const response = await withdraw(accountId, amount);
-    set((state) => ({
-      accounts: state.accounts.map((account) =>
-        account.id === accountId
-          ? { ...account, balance: account.balance - Number(amount) }
-          : account
-      ),
-    }));
-    return response;
+    try {
+      await withdraw(accountId, amount);
+      set((state) => ({
+        accounts: state.accounts.map((account) =>
+          account.id === accountId
+            ? { ...account, balance: account.balance - Number(amount) }
+            : account
+        ),
+      }));
+      showToast("Saque realizado com sucesso", "success");
+    } catch (error: unknown) {
+      showToast("Erro ao realizar o saque", "error");
+      console.error(error);
+    }
   },
 
   deposit: async (accountId: string, amount: number) => {
-    const response = await deposit(accountId, amount);
-    set((state) => ({
-      accounts: state.accounts.map((account) =>
-        account.id === accountId
-          ? { ...account, balance: account.balance + Number(amount) }
-          : account
-      ),
-    }));
-    return response;
+    try {
+      await deposit(accountId, amount);
+      set((state) => ({
+        accounts: state.accounts.map((account) =>
+          account.id === accountId
+            ? { ...account, balance: account.balance + Number(amount) }
+            : account
+        ),
+      }));
+      showToast("Depósito realizado com sucesso", "success");
+    } catch (error: unknown) {
+      showToast("Erro ao realizar o depósito", "error");
+      console.error(error);
+    }
   },
 
   searchAccountByName: async (accountName: string | null) => {
     try {
       const result = await getAccountByName(accountName);
-      set({ searchedAccount: result, errorMessage: "" });
-    } catch (error: ApiError | unknown) {
-      const apiError = error as ApiError;
-      set({
-        errorMessage: apiError.response.data.message,
-        searchedAccount: null,
-      });
+      set({ searchedAccount: result });
+      showToast("Conta encontrada", "success");
+    } catch (error: unknown) {
+      set({ searchedAccount: null });
+      showToast("Conta não encontrada", "error");
+      console.error(error);
     }
   },
 }));

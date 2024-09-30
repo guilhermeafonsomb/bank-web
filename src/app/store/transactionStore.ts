@@ -8,6 +8,7 @@ import {
   getTransactions,
 } from "../services/transactionServices";
 import { useAccountStore } from "./accountStore";
+import { showToast } from "../shared/utils/toast/feedbackToast";
 
 interface TransactionStore {
   transactions: Transaction[];
@@ -30,37 +31,46 @@ export const useTransactionStore = create<TransactionStore>((set) => ({
   transactions: [],
 
   getTransactions: async (userId: string, filters) => {
-    const transactions = await getTransactions(userId, filters);
-    set({ transactions });
+    try {
+      const transactions = await getTransactions(userId, filters);
+      set({ transactions });
+    } catch (error: unknown) {
+      showToast("Erro ao carregar transações", "error");
+      console.error(error);
+    }
   },
 
   createTransaction: async (transaction: TransactionFormData) => {
-    const { accounts } = useAccountStore.getState(); // Obter contas do store
+    const { accounts } = useAccountStore.getState();
 
-    // Faz o POST da transação com os IDs
-    const newTransaction = await createTransaction(transaction);
+    try {
+      const newTransaction = await createTransaction(transaction);
 
-    // Busca os nomes das contas a partir dos IDs
-    const fromAccount = accounts.find(
-      (account) => account.id === newTransaction.fromAccount
-    );
-    const toAccount = accounts.find(
-      (account) => account.id === newTransaction.toAccount
-    );
+      const fromAccount = accounts.find(
+        (account) => account.id === newTransaction.fromAccount
+      );
+      const toAccount = accounts.find(
+        (account) => account.id === newTransaction.toAccount
+      );
 
-    // Atualiza o estado com os nomes das contas
-    set((state) => ({
-      transactions: [
-        {
-          ...newTransaction,
-          fromAccountName: fromAccount?.name || "",
-          toAccountName: toAccount?.name || "",
-        },
-        ...state.transactions,
-      ].sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      ),
-    }));
+      set((state) => ({
+        transactions: [
+          {
+            ...newTransaction,
+            fromAccountName: fromAccount?.name || "",
+            toAccountName: toAccount?.name || "",
+          },
+          ...state.transactions,
+        ].sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        ),
+      }));
+
+      showToast("Transação criada com sucesso!", "success");
+    } catch (error: unknown) {
+      showToast("Erro ao criar transação", "error");
+      console.error(error);
+    }
   },
 }));

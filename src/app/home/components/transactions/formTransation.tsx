@@ -23,8 +23,7 @@ export default function FormTransaction({ userId }: FormTransactionProps) {
   const { accounts, getAccounts } = useAccountStore();
   const { createTransaction } = useTransactionStore();
 
-  const { searchedAccount, searchAccountByName, errorMessage } =
-    useAccountStore();
+  const { searchedAccount, searchAccountByName } = useAccountStore();
   const [accountName, setAccountName] = useState("");
   const [chosenAccount, setChosenAccount] = useState<Account | null>(null);
   const [payload, setPayload] = useState<TransactionFormData | null>(null);
@@ -104,7 +103,6 @@ export default function FormTransaction({ userId }: FormTransactionProps) {
                     </option>
                   ))}
                 </Select>
-                {errorMessage && <p className="text-red-500">{errorMessage}</p>}
               </div>
 
               <div>
@@ -152,8 +150,6 @@ export default function FormTransaction({ userId }: FormTransactionProps) {
                   Buscar conta
                 </div>
               </div>
-
-              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
             </div>
 
             <Button disabled={!searchedAccount && !payload} type="submit">
