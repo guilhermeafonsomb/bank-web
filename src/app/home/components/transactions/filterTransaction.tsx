@@ -19,7 +19,8 @@ export default function FilterTransaction({ userId }: FilterTransactionProps) {
   const [transactionType, setTransactionType] = useState<
     "transferReceived" | "transferSent" | null
   >(null);
-  const { register, handleSubmit } = useForm<FilterTransactionFormData>();
+  const { register, handleSubmit, reset } =
+    useForm<FilterTransactionFormData>();
 
   const onSubmit = async (data: FilterTransactionFormData) => {
     const formData = {
@@ -33,6 +34,8 @@ export default function FilterTransaction({ userId }: FilterTransactionProps) {
     };
 
     await getTransactions(userId, formData);
+    setTransactionType(null);
+    reset();
     closeModal("filterTransactionModal");
 
     console.log(formData, "formData");
