@@ -4,4 +4,5 @@ export const validationMessages = {
   maxLengthSm: "Campo passou do tamanho máximo",
   invalidCode: "Número de documento inválido",
   invalidField: "Campo inválido",
+  balance: "Saldo insuficiente",
 };

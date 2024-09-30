@@ -16,5 +16,5 @@ export default function TagTypeTransfer({ type }: TagTypeTransferProps) {
 
   const { label, color } = getTypeTranslation(type);
 
-  return <span className={color}>{label}</span>;
+  return <span className={color}> {label}</span>;
 }

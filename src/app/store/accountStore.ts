@@ -6,8 +6,14 @@ import {
   updateAccount,
   withdraw,
   deposit,
+  getAccountByName,
 } from "../services/accountServices";
-import { Account, AccountFormData } from "../shared/models/account.models";
+import {
+  Account,
+  AccountByName,
+  AccountFormData,
+} from "../shared/models/account.models";
+import { ApiError } from "../shared/models/apiError.model";
 
 interface AccountStore {
   accounts: Account[];
@@ -17,10 +23,15 @@ interface AccountStore {
   updateAccount: (accountId: string, accountName: string) => Promise<void>;
   withdraw: (accountId: string, amount: number) => Promise<void>;
   deposit: (accountId: string, amount: number) => Promise<void>;
+  searchedAccount: AccountByName | string | null;
+  errorMessage: string;
+  searchAccountByName: (accountName: string) => Promise<void>;
 }
 
 export const useAccountStore = create<AccountStore>((set) => ({
   accounts: [],
+  searchedAccount: "",
+  errorMessage: "",
 
   getAccounts: async (userId: string) => {
     const accounts = await getAccounts(userId);
@@ -74,5 +85,18 @@ export const useAccountStore = create<AccountStore>((set) => ({
       ),
     }));
     return response;
+  },
+
+  searchAccountByName: async (accountName: string) => {
+    try {
+      const result = await getAccountByName(accountName);
+      set({ searchedAccount: result, errorMessage: "" });
+    } catch (error: ApiError | unknown) {
+      const apiError = error as ApiError;
+      set({
+        errorMessage: apiError.response.data.message,
+        searchedAccount: null,
+      });
+    }
   },
 }));

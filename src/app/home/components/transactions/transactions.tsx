@@ -1,7 +1,7 @@
 import ListTransactions from "@/src/app/components/listTransactions";
-import CreateTransactionModal from "./createTransactionModal";
 import { useTransactionStore } from "@/src/app/store/transactionStore";
 import { useEffect } from "react";
+import FormTransaction from "./formTransation";
 
 interface TransactionsProps {
   userId: string;
@@ -14,13 +14,15 @@ export default function Transactions({ userId }: TransactionsProps) {
     getTransactions(userId);
   }, [getTransactions, userId]);
 
+  console.log(transactions, "transactions");
+
   return (
-    <section className="flex flex-col gap-7">
-      <div className="w-full md:max-w-96">
-        <CreateTransactionModal />
+    <section className="flex flex-col gap-7 max-h-[680px] overflow-auto">
+      <div className="w-full md:max-w-36">
+        <FormTransaction userId={userId} />
       </div>
 
-      <div>
+      <div className="overflow-auto px-4">
         <ListTransactions transactions={transactions} />
       </div>
     </section>

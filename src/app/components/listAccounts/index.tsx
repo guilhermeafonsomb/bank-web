@@ -12,11 +12,11 @@ export default function ListAccounts({ accounts }: ListAccountProps) {
   const { openModal } = useModalStore();
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-4 overflow-auto">
       <h1 className="font-bold text-xl">Suas contas</h1>
 
-      <section className="flex flex-col gap-10">
-        {accounts.map((account) => (
+      <section className="flex flex-col gap-10  ">
+        {accounts?.map((account) => (
           <section
             className="flex justify-between items-center"
             key={account.id}

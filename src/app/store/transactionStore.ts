@@ -36,7 +36,10 @@ export const useTransactionStore = create<TransactionStore>((set) => ({
   createTransaction: async (transaction: TransactionFormData) => {
     const newTransaction = await createTransaction(transaction);
     set((state) => ({
-      transactions: [...state.transactions, newTransaction],
+      transactions: [newTransaction, ...state.transactions].sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      ),
     }));
   },
 }));

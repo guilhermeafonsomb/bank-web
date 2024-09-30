@@ -1,5 +1,10 @@
 import { FetchHelper } from "../helpers/fetchHelper";
-import { Account, AccountFormData } from "../shared/models/account.models";
+import {
+  Account,
+  AccountFormData,
+  AccountByName,
+} from "../shared/models/account.models";
+import { ApiError } from "../shared/models/apiError.model";
 import { baseURL } from "../shared/utils/baseUrl";
 
 const fetchHelper = FetchHelper();
@@ -54,4 +59,22 @@ export const deposit = async (accountId: string, amount: number) => {
   });
 
   return response;
+};
+
+export const getAccountByName = async (
+  accountName: string
+): Promise<AccountByName | null> => {
+  try {
+    const response = await fetchHelper.get({
+      url: `${baseURL}/accounts/name/${accountName}`,
+    });
+
+    return response;
+  } catch (error: ApiError | unknown) {
+    if ((error as ApiError).response.status === 400) {
+      throw new Error((error as ApiError).response.data.message);
+    }
+
+    throw error;
+  }
 };

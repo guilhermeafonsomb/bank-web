@@ -9,3 +9,8 @@ export interface Account {
   balance: number;
   userId: string;
 }
+
+export interface AccountByName {
+  name: string;
+  id: string;
+}

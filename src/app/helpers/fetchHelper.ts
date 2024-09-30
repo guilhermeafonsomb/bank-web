@@ -6,8 +6,14 @@ interface FetchHelper {
 export function FetchHelper() {
   const get = async ({ url }: FetchHelper) => {
     const response = await fetch(url);
-    const data = await response.json();
-    return data;
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw { status: response.status, message: errorData.message };
+    }
+
+
+    return await response.json();
   };
 
   const post = async ({ url, body }: FetchHelper) => {

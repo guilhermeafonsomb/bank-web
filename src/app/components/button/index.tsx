@@ -18,7 +18,7 @@ export default function Button({
   return (
     <button
       className={clsx(
-        "w-full bg-blue-500 font-medium px-4 py-2 rounded-lg h-12",
+        "w-full bg-blue-500 font-medium px-4 py-2 rounded-lg h-12 disabled:opacity-40 disabled:cursor-not-allowed",
         {
           "bg-blue-500 text-gray-300": variation === "primary",
           "bg-red-500 text-gray-300": variation === "secondary",

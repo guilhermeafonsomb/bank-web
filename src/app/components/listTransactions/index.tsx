@@ -11,7 +11,7 @@ export default function ListTransactions({
   transactions,
 }: ListTransactionsProps) {
   return (
-    <section className="flex flex-col gap-10">
+    <section className="flex flex-col gap-10 ">
       {transactions.map((transaction) => (
         <section key={transaction.id} className="flex flex-col gap-2">
           <section className="flex flex-col gap-2 md:flex-row">
