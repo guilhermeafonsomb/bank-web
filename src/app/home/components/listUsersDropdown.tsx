@@ -18,7 +18,7 @@ export default function ListUsersDropdown() {
             variation="ghost"
             className="w-full flex flex-col gap-2 cursor-pointer"
             key={user.id}
-            onClick={() => setUser({ cpf: user.cpf, userId: user.id })}
+            onClick={() => setUser(user)}
           >
             <p className="text-sm">{user.name}</p>
             <p className="text-xs text-slate-500">{user.cpf}</p>

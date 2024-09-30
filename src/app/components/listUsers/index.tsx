@@ -10,16 +10,7 @@ export default async function ListUsers() {
   return (
     <section className="flex flex-col items-start gap-6">
       {users.map((user) => (
-        <UserContent
-          key={user.id}
-          onClick={() =>
-            setUser({
-              cpf: user.cpf,
-              userId: user.id,
-            })
-          }
-          user={user}
-        />
+        <UserContent key={user.id} onClick={() => setUser(user)} user={user} />
       ))}
     </section>
   );

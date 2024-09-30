@@ -19,7 +19,7 @@ export default function Home() {
   const tabs = [
     {
       label: "Contas bancárias",
-      content: <Accounts userId={chosenUser?.userId as string} />,
+      content: <Accounts userId={chosenUser?.id as string} />,
     },
     { label: "tab 2", content: <Button>Tab 2</Button> },
     { label: "tab 3", content: <Button>Tab 3</Button> },
@@ -38,9 +38,17 @@ export default function Home() {
           </div>
         </section>
       </section>
-      <section className="flex items-center justify-center w-full px-2">
-        <Tabs tabs={tabs} />
+      <section className="flex items-center justify-center w-full ">
+        {chosenUser && (
+          <div className="flex flex-col gap-3 max-w-4xl items-start justify-center w-full">
+            Usuário: {chosenUser?.name}
+            <Tabs tabs={tabs} />
+          </div>
+        )}
       </section>
+      <div className="flex justify-center items-center">
+        {!chosenUser && <p className="text-3xl">Escolha um usuário</p>}
+      </div>
     </section>
   );
 }

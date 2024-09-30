@@ -2,16 +2,11 @@ import { create } from "zustand";
 import { User, UserFormData } from "../shared/models/user.models";
 import { createUsers, getUsers } from "../services/userServices";
 
-interface ChosenUser {
-  cpf: string;
-  userId: string;
-}
-
 interface UserStore {
   users: User[];
-  chosenUser: ChosenUser | null;
+  chosenUser: User | null;
   getUsers: () => Promise<void>;
-  setUser: (user: ChosenUser) => void;
+  setUser: (user: User) => void;
   loadUserFromLocalStorage: () => void;
   createUser: (user: UserFormData) => Promise<void>;
 }
@@ -25,7 +20,7 @@ export const useUserStore = create<UserStore>((set) => ({
     set({ users });
   },
 
-  setUser: (user: ChosenUser) => {
+  setUser: (user: User) => {
     localStorage.removeItem("user");
     localStorage.setItem("user", JSON.stringify(user));
     set({ chosenUser: user });
