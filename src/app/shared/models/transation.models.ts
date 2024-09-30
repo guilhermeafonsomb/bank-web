@@ -3,7 +3,6 @@ export interface TransactionFormData {
   toAccount: string;
   amount: number;
   userId: string;
-  type: string;
 }
 
 export interface Transaction {

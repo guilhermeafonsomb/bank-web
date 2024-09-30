@@ -25,7 +25,7 @@ interface AccountStore {
   deposit: (accountId: string, amount: number) => Promise<void>;
   searchedAccount: AccountByName | string | null;
   errorMessage: string;
-  searchAccountByName: (accountName: string) => Promise<void>;
+  searchAccountByName: (accountName: string | null) => Promise<void>;
 }
 
 export const useAccountStore = create<AccountStore>((set) => ({
@@ -87,7 +87,7 @@ export const useAccountStore = create<AccountStore>((set) => ({
     return response;
   },
 
-  searchAccountByName: async (accountName: string) => {
+  searchAccountByName: async (accountName: string | null) => {
     try {
       const result = await getAccountByName(accountName);
       set({ searchedAccount: result, errorMessage: "" });

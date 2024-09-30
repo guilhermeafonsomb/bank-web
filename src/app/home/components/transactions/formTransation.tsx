@@ -32,6 +32,7 @@ export default function FormTransaction({ userId }: FormTransactionProps) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TransactionFormData>();
 
@@ -45,11 +46,15 @@ export default function FormTransaction({ userId }: FormTransactionProps) {
       toAccount: (searchedAccount as AccountByName)?.id,
       amount: Number(data.amount),
       userId: userId,
-      type: "transferSent",
     };
     setPayload(payload);
 
     createTransaction(payload as TransactionFormData);
+    setPayload(null);
+    searchAccountByName(null);
+    setChosenAccount(null);
+    reset();
+
     closeModal("createTransactionModal");
   };
 

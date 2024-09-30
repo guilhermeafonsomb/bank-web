@@ -12,45 +12,53 @@ export default function ListTransactions({
 }: ListTransactionsProps) {
   return (
     <section className="flex flex-col gap-10 ">
-      {transactions.map((transaction) => (
-        <section key={transaction.id} className="flex flex-col gap-2">
-          <section className="flex flex-col gap-2 md:flex-row">
-            <div className="flex flex-col gap-2 w-full">
-              <p>
-                <span className="font-bold">Remetente: </span>
-                {transaction.fromAccountName}
-              </p>
-              <p>
-                <span className="font-bold">Destinatário: </span>
+      {transactions.length === 0 ? (
+        <p>Nem uma transação encontrada.</p>
+      ) : (
+        <>
+          {transactions.map((transaction) => (
+            <section key={transaction.id} className="flex flex-col gap-2">
+              <section className="flex flex-col gap-2 md:flex-row">
+                <div className="flex flex-col gap-2 w-full">
+                  <p>
+                    <span className="font-bold">Remetente: </span>
+                    {transaction.fromAccountName}
+                  </p>
+                  <p>
+                    <span className="font-bold">Destinatário: </span>
 
-                {transaction.toAccountName}
-              </p>
-            </div>
+                    {transaction.toAccountName}
+                  </p>
+                </div>
 
-            <div className="w-full flex flex-col gap-2 justify-between md:items-center md:flex-row">
+                <div className="w-full flex flex-col gap-2 justify-between md:items-center md:flex-row">
+                  <p>
+                    <span className="font-bold">Valor: </span>
+
+                    {formatCurrency(transaction.amount)}
+                  </p>
+                  <p>
+                    <span className="font-bold">Data: </span>
+                    {formatDate(transaction.createdAt)}
+                  </p>
+                </div>
+              </section>
+
               <p>
-                <span className="font-bold">Valor: </span>
-
-                {formatCurrency(transaction.amount)}
+                <span className="font-bold">
+                  Tipo:
+                  <TagTypeTransfer
+                    type={
+                      transaction.type as "transferReceived" | "transferSent"
+                    }
+                  />
+                </span>
+                {}
               </p>
-              <p>
-                <span className="font-bold">Data: </span>
-                {formatDate(transaction.createdAt)}
-              </p>
-            </div>
-          </section>
-
-          <p>
-            <span className="font-bold">
-              Tipo:
-              <TagTypeTransfer
-                type={transaction.type as "transferReceived" | "transferSent"}
-              />
-            </span>
-            {}
-          </p>
-        </section>
-      ))}
+            </section>
+          ))}
+        </>
+      )}
     </section>
   );
 }
